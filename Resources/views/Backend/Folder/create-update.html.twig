@@ -1,0 +1,21 @@
+{% extends '@WHAmazonS3Media/Backend/layout.html.twig' %}
+
+{% block body %}
+
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+    {{ form_start(form, {'action' : formAction}) }}
+
+    <div class="modal-body">
+        {% for formField, properties  in formFields %}
+            {{ form_row(attribute(form, formField)) }}
+        {% endfor %}
+    </div>
+
+    <div class="modal-footer">
+        {{ macros.listFormButtons(footerFormFields, form) }}
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

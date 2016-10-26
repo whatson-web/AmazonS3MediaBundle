@@ -1,0 +1,27 @@
+actions:
+    index:
+        route: 'bk_wh_amazons3media_file_index'
+    delete:
+        route: 'bk_wh_amazons3media_file_delete'
+        parameters:
+            id: 'id'
+    view:
+        route: 'bk_wh_amazons3media_file_view'
+        parameters:
+            id: 'id'
+    download:
+        route: 'bk_wh_amazons3media_file_download'
+        parameters:
+            id: 'id'
+
+formFields:
+    id:
+        label: 'ID'
+    fileName:
+        label: 'Nom'
+        field: 'fileName'
+        type: 'text'
+
+menus:
+    main: 'menu-admin'
+    right: 'menu-admin-right'

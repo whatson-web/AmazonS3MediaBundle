@@ -1,0 +1,9 @@
+{% if file.mimeType in ['image/jpeg', 'image/png', 'image/gif'] %}
+    <a href="{{ path('bk_wh_amazons3media_file_view', {'id' : file.id}) }}" target="_blank">
+        <img src="{{ file.publicUrl }}" class="img-responsive">
+    </a>
+{% else %}
+    <a href="{{ path('bk_wh_amazons3media_file_download', {'id' : file.id}) }}">
+        {{ file.fileName }}
+    </a>
+{% endif %}

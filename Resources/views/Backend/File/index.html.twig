@@ -1,0 +1,128 @@
+{% extends '@WHAmazonS3Media/Backend/layout.html.twig' %}
+
+{% block body %}
+
+    {% include '@WHBackendTemplate/BackendTemplate/Element/breadcrumb.html.twig' with {'breadcrumb': breadcrumb} %}
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <ul class="wh-list-buttons left">
+                <li>
+                    <a href="{{ path('bk_wh_amazons3media_folder_create') }}" class="btn btn-xs btn-success">
+                        <i class="fa fa-plus"></i> Ajouter un sous-dossier
+                    </a>
+                </li>
+                {% if folderId %}
+                    <li>
+                        <a href="{{ path('bk_wh_amazons3media_folder_update', {'id' : folderId}) }}"
+                           class="btn btn-xs btn-primary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('bk_wh_amazons3media_folder_delete', {'id' : folderId}) }}"
+                           class="btn btn-xs btn-danger"
+                           onclick="return confirm('Êtes-vous sûr vouloir supprimer ce dossier ?')">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <div class="wh-tree-folder">
+                {% set menuTemplate = '@WHAmazonS3Media/Twig/tree.html.twig' %}
+                {% set menu = knp_menu_get('WHAmazonS3MediaBundle:Folder:tree') %}
+                {{ knp_menu_render(menu, {allow_safe_labels : true, template: menuTemplate}) | raw }}
+            </div>
+
+        </div>
+
+        <div class="col-md-8">
+
+            <ul class="wh-list-buttons">
+                <li>
+                    <a href="{{ path('bk_wh_amazons3media_file_upload', {'folderId' : folderId}) }}"
+                       class="btn btn-xs btn-success">
+                        <i class="fa fa-plus"></i> Ajouter un ou plusieurs fichier(s)
+                    </a>
+                </li>
+            </ul>
+
+            <table class="wh-table table table-striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for file in files %}
+                    <tr>
+                        <td>
+                            <ul class="wh-list-buttons">
+                                {% if inputId is defined %}
+                                    <li>
+                                        <a class="btn btn-xs btn-primary" data-select-id="{{ file.id }}">
+                                            <i class="fa fa-arrow-down"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{{ path('bk_wh_amazons3media_file_view', {'id' : file.id}) }}"
+                                       class="btn btn-xs btn-info" target="_blank">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('bk_wh_amazons3media_file_download', {'id' : file.id}) }}"
+                                       class="btn btn-xs btn-success" target="_blank">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('bk_wh_amazons3media_file_delete', {'id' : file.id}) }}"
+                                       class="btn btn-xs btn-danger"
+                                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?')">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>{{ file.id }}</td>
+                        <td>{{ file.fileName }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+
+    {% if inputId is defined %}
+
+        <script type="text/javascript">
+
+            $('a[data-select-id]').click(function () {
+
+                console.log(window.opener.$('#{{ inputId }}').html());
+                window.opener.$('#{{ inputId }}').val($(this).attr('data-select-id'));
+                window.opener.$('#{{ inputId ~ '_finder_delete' }}').css('display', 'block');
+                window.opener.$('#{{ inputId ~ '_finder_fileinfos' }}').load('{{ path('bk_wh_amazons3media_file_preview') }}/' + $(this).attr('data-select-id'));
+                window.close();
+
+                return false;
+            });
+
+        </script>
+
+    {% endif %}
+
+{% endblock %}

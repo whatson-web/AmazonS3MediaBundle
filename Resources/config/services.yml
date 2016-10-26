@@ -1,0 +1,10 @@
+services:
+    bk.wh.amazons3media.amazons3manager:
+        class: WH\AmazonS3MediaBundle\Services\AmazonS3Manager
+        arguments: ['@service_container']
+
+    bk.wh.amazons3media.filelistener:
+        class: WH\AmazonS3MediaBundle\Listener\FileListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.event_subscriber }

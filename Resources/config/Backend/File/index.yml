@@ -1,0 +1,5 @@
+title: 'Liste des fichiers'
+breadcrumb:
+    index:
+        label: 'Liste des fichiers'
+        action: 'index'

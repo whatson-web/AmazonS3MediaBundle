@@ -1,0 +1,15 @@
+title: 'Créer une actualité'
+
+redirectionAction: 'fileRedirect'
+
+view: '@WHAmazonS3Media/Backend/Folder/create-update.html.twig'
+
+formFields:
+    - name
+    - parent
+
+footerFormFields:
+    create:
+        label: 'Créer'
+        field: 'create'
+        color: 'success'

@@ -1,0 +1,38 @@
+{% extends '@WHAmazonS3Media/Backend/layout.html.twig' %}
+
+{% block body %}
+
+    {% include '@WHBackendTemplate/BackendTemplate/Element/breadcrumb.html.twig' with {'breadcrumb': breadcrumb} %}
+
+    <div id="uploadedFiles" class="alert alert-success" style="display: none;">Fichiers ajoutés :<br></div>
+    <div id="failedUploadFiles" class="alert alert-danger" style="display: none;">Fichiers non ajoutés :<br></div>
+
+    <form action="{{ path('bk_wh_amazons3media_file_upload', {'folderId' : folderId}) }}" class="dropzone"></form>
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script type="text/javascript">
+        $('form').dropzone({
+            init: function () {
+                this.on("complete", function (file) {
+                    if (file.status == 'success') {
+                        $('#uploadedFiles').css('display', 'block');
+                        var html = $('#uploadedFiles').html();
+                        html += file.name + '<br>';
+                        $('#uploadedFiles').html(html);
+                    }
+                    if (file.status == 'error') {
+                        $('#failedUploadFiles').css('display', 'block');
+                        var html = $('#failedUploadFiles').html();
+                        html += file.name + '<br>';
+                        $('#failedUploadFiles').html(html);
+                    }
+                });
+            },
+            dictDefaultMessage: 'Glisser vos fichiers ici ou cliquez pour les sélectionner'
+        })
+    </script>
+
+{% endblock %}

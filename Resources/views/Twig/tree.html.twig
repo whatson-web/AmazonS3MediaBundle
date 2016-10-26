@@ -1,0 +1,15 @@
+{% extends '@KnpMenu/menu.html.twig' %}
+
+{% block label %}
+    {%- if matcher.isCurrent(item) or matcher.isAncestor(item, options.matchingDepth) %}
+        <i class="fa fa-caret-square-o-down"></i>&nbsp;
+    {% else %}
+        <i class="fa fa-caret-square-o-right"></i>&nbsp;
+    {% endif %}
+    {%- set translation_domain = item.extra('translation_domain', 'messages') -%}
+    {%- set label = item.label -%}
+    {%- if translation_domain is not same as(false) -%}
+        {%- set label = label|trans(item.extra('translation_params', {}), translation_domain) -%}
+    {%- endif -%}
+    {%- if options.allow_safe_labels and item.extra('safe_label', false) %}{{ label|raw }}{% else %}{{ label }}{% endif -%}
+{% endblock %}

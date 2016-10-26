@@ -1,0 +1,27 @@
+actions:
+    create:
+        route: 'bk_wh_amazons3media_folder_create'
+    update:
+        route: 'bk_wh_amazons3media_folder_update'
+        parameters:
+            id: 'id'
+    delete:
+        route: 'bk_wh_amazons3media_folder_delete'
+        parameters:
+            id: 'id'
+    fileRedirect:
+        route: 'bk_wh_amazons3media_file_redirect'
+
+formFields:
+    id:
+        label: 'ID'
+    name:
+        label: 'Nom'
+        field: 'name'
+        type: 'text'
+    parent:
+        label: 'Dossier parent'
+        field: 'parent'
+        type: 'entity'
+        class: 'WHAmazonS3MediaBundle:Folder'
+        choice_label: 'indentedName'
